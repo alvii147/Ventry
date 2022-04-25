@@ -1,5 +1,5 @@
 <p align="center">
-    <img alt="Ventry Logo" src="static/images/ventry_logo.png">
+    <img alt="Ventry Logo" src="static/images/ventry_logo.png" width="200">
 </p>
 
 # Overview
@@ -16,21 +16,23 @@ The dashboard page shows all items in the current inventory.
 
 New items can be created by navigating to the **New Item** link on the navbar and filling out the form with the item details.
 
-![New Screenshot](img/new_screenshot.png)
+![New Item Screenshot](img/new_screenshot.png)
 
 ## Update Existing Items
 
 Existing items can be updated by clicking the edit icon on the right hand side of the corresponding item on the dashboard and filling out the pre-populated form with the appropriate changes.
 
-![Edit Screenshot](img/edit_screenshot.png)
+![Edit Item Screenshot](img/edit_screenshot.png)
 
 ## Exporting to CSV
 
 Ventry can also export the inventory data into [CSV](https://en.wikipedia.org/wiki/Comma-separated_values) format. This can be done by clicking the **Export CSV** button on the dashboard.
 
+![Export CSV Screenshot](img/export_screenshot.png)
+
 # Getting Started
 
-## Running Ventry using Docker Compose
+## Running Ventry using Docker Compose (Recommended)
 
 :one: Install Docker from the [official website](https://www.docker.com/). Installation instructions may vary depending on the OS.
 
