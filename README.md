@@ -16,19 +16,19 @@ The dashboard page shows all items in the current inventory.
 
 New items can be created by navigating to the **New Item** link on the navbar and filling out the form with the item details.
 
-![New Item Screenshot](img/new_screenshot.png)
+<img alt="New Item Screenshot" src="img/new_screenshot.png" height="500" />
 
 ## Update Existing Items
 
 Existing items can be updated by clicking the edit icon on the right hand side of the corresponding item on the dashboard and filling out the pre-populated form with the appropriate changes.
 
-![Edit Item Screenshot](img/edit_screenshot.png)
+<img alt="Edit Item Screenshot" src="img/edit_screenshot.png" height="500" />
 
 ## Exporting to CSV
 
 Ventry can also export the inventory data into [CSV](https://en.wikipedia.org/wiki/Comma-separated_values) format. This can be done by clicking the **Export CSV** button on the dashboard.
 
-![Export CSV Screenshot](img/export_screenshot.png)
+<img alt="Export CSV Screenshot" src="img/export_screenshot.png" height="350" />
 
 # Getting Started
 
