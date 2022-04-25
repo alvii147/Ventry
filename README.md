@@ -1,5 +1,5 @@
 <p align="center">
-    <img alt="Ventry Logo" src="static/images/ventry_logo.png" width="200">
+    <img alt="Ventry Logo" src="static/images/ventry_logo.png" width="300">
 </p>
 
 # Overview
