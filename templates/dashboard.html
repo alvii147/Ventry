@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {{ template "head"}}
+    <title>Ventry | Dashboard</title>
+  </head>
+  <body>
+    {{ template "navbar" }}
+    <br />
+    <div class="container">
+      <div class="dashboard-headline-container">
+        <h1 class="display-5">Dashboard</h1>
+        <div>
+          <button class="btn main-button" onclick="exportCSV()">Export CSV</button>
+        </div>
+      </div>
+      <table id="items-table" class="table table-hover table-bordered">
+        <thead id="items-table-head" class="table-dark">
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Title</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Price</th>
+            <th scope="col">Owner</th>
+            <th scope="col">Supplier</th>
+            <th scope="col">Shipper</th>
+            <th scope="col">Created</th>
+            <th scope="col">Modified</th>
+            <th scope="col">Edit</th>
+            <th scope="col">Delete</th>
+          </tr>
+        </thead>
+        <tbody id="items-table-body">
+          {{ range $item := . }}
+            <tr>
+              <th scope="col">{{ $item.ItemId }}</th>
+              <td>{{ $item.Title }}</td>
+              <td>{{ $item.Quantity }}</td>
+              <td>${{ $item.Price }}</td>
+              <td>{{ $item.Owner }}</td>
+              <td>{{ $item.Supplier }}</td>
+              <td>{{ $item.Shipper }}</td>
+              <td>{{ $item.Created }}</td>
+              <td>{{ $item.Modified }}</td>
+              <td>
+                <a href="edit/{{ $item.ItemId }}">
+                  <img alt="Edit Icon" src="/static/images/edit_icon.png" width="15" />
+                </a>
+              </td>
+              <td>
+                <a href="javascript:deleteItem({{ $item.ItemId }});">
+                  <img alt="Delete Icon" src="/static/images/delete_icon.png" width="15" />
+                </a>
+              </td>
+            </tr>
+          {{ end }}
+        </tbody>
+      </table>
+    </div>
+    {{ template "scripts" }}
+    <script src="/static/js/dashboard.js"></script>
+  </body>
+</html>

@@ -1,0 +1,30 @@
+services:
+  database:
+    image: postgres:14
+    container_name: postgres-ventry
+    environment:
+      POSTGRES_DB: ventrydb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: M3m23e9ji32
+      POSTGRES_PORT: 5432
+    ports:
+      - "${POSTGRES_PORT}:${POSTGRES_PORT}"
+    restart: on-failure
+
+  backend:
+    build: .
+    image: ventry-app
+    container_name: ventry-app
+    environment:
+      VENTRY_POSTGRES_DATABASE: ventry
+      VENTRY_POSTGRES_USERNAME: postgres
+      VENTRY_POSTGRES_PASSWORD: M3m23e9ji32
+      VENTRY_POSTGRES_HOST: localhost
+      VENTRY_POSTGRES_PORT: 5432
+    ports:
+      - "8000:8000"
+    working_dir: /usr/src/app
+    command: ./main
+    depends_on:
+      - database
+    restart: on-failure

@@ -1,0 +1,62 @@
+body {
+  color: rgb(7, 7, 35);
+  background-color: rgb(235, 235, 235);
+  font-family: 'Comfortaa', cursive;
+  font-family: 'Dosis', sans-serif;
+  font-family: 'Raleway', sans-serif;
+  font-weight: bold;
+}
+
+nav {
+  background-image: linear-gradient(to right, rgb(7, 7, 35), rgb(7, 61, 67));
+}
+
+.main-button {
+  color: rgb(255, 255, 255);
+  background-color: rgb(253, 84, 38);
+  transition: 0.3s;
+}
+.main-button:hover {
+  color: rgb(255, 255, 255);
+  background-color: rgb(226, 50, 2);
+}
+
+.main-button-outline {
+  color: rgb(253, 84, 38);
+  background-color: transparent;
+  border-color: rgb(253, 84, 38);
+  transition: 0.3s;
+}
+.main-button-outline:hover {
+  color: rgb(255, 255, 255);
+  background-color: rgb(226, 50, 2);
+  border-color: rgb(226, 50, 2);
+}
+
+.main-header {
+  font-family: "Bauhaus 93";
+}
+
+.dashboard-headline-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#items-table-body {
+  border: none;
+}
+
+#items-table-body > tr {
+  background-image: linear-gradient(to right, rgb(224, 221, 119), rgb(235, 186, 50));
+  border: none;
+}
+
+#items-table-body > tr > th {
+  border: 1px solid rgb(77, 14, 5);
+}
+
+#items-table-body > tr > td {
+  border: 1px solid rgb(77, 14, 5);
+}
