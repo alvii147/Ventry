@@ -113,7 +113,7 @@ func PostNewItem(request *http.Request) error {
 	shipper := request.FormValue("shipper")
 
 	_, err = db.Query(
-		"INSERT INTO Inventory (title, quantity, price, owner, supplier, shipper) VALUES ('$1', $2, $3, '$4', '$5', '$6')",
+		"INSERT INTO Inventory (title, quantity, price, owner, supplier, shipper) VALUES ($1, $2, $3, $4, $5, $6)",
 		title,
 		quantity,
 		price,

@@ -3,28 +3,29 @@ services:
     image: postgres:14
     container_name: postgres-ventry
     environment:
-      POSTGRES_DB: ventrydb
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: M3m23e9ji32
-      POSTGRES_PORT: 5432
     ports:
-      - "${POSTGRES_PORT}:${POSTGRES_PORT}"
+      - 5432:5432
     restart: on-failure
+    volumes: 
+      - ./db/create_database.sql:/docker-entrypoint-initdb.d/create_database.sql
+      - ./db/create_table.sql:/docker-entrypoint-initdb.d/create_table.sql
+      - ./db/insert_sample.sql:/docker-entrypoint-initdb.d/insert_sample.sql
 
-  backend:
+  web-app:
     build: .
-    image: ventry-app
     container_name: ventry-app
     environment:
-      VENTRY_POSTGRES_DATABASE: ventry
+      VENTRY_POSTGRES_DATABASE: ventrydb
       VENTRY_POSTGRES_USERNAME: postgres
       VENTRY_POSTGRES_PASSWORD: M3m23e9ji32
-      VENTRY_POSTGRES_HOST: localhost
+      VENTRY_POSTGRES_HOST: postgres-ventry
       VENTRY_POSTGRES_PORT: 5432
     ports:
-      - "8000:8000"
-    working_dir: /usr/src/app
-    command: ./main
+      - 8000:8000
+    working_dir: /usr/src/Ventry
+    command: ./Ventry
     depends_on:
       - database
     restart: on-failure

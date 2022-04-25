@@ -1,11 +1,25 @@
 FROM golang:latest AS go-builder
 
-WORKDIR /usr/src/app
+ARG VENTRY_POSTGRES_DATABASE
+ARG VENTRY_POSTGRES_USERNAME
+ARG VENTRY_POSTGRES_PASSWORD
+ARG VENTRY_POSTGRES_HOST
+ARG VENTRY_POSTGRES_PORT
+
+ENV VENTRY_POSTGRES_DATABASE $VENTRY_POSTGRES_DATABASE
+ENV VENTRY_POSTGRES_USERNAME $VENTRY_POSTGRES_USERNAME
+ENV VENTRY_POSTGRES_PASSWORD $VENTRY_POSTGRES_PASSWORD
+ENV VENTRY_POSTGRES_HOST $VENTRY_POSTGRES_HOST
+ENV VENTRY_POSTGRES_PORT $VENTRY_POSTGRES_PORT
+
+WORKDIR /usr/src/Ventry
 COPY . ./
 
-RUN go build -o main main.go
+RUN go build  -o . ./...
 
 FROM golang:latest AS go-runner
 
-WORKDIR /usr/src/app
-COPY --from=go-builder /usr/src/app ./
+WORKDIR /usr/src/Ventry
+COPY --from=go-builder /usr/src/Ventry/static/ ./static/
+COPY --from=go-builder /usr/src/Ventry/templates/ ./templates/
+COPY --from=go-builder /usr/src/Ventry/Ventry ./
