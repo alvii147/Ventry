@@ -1,6 +1,6 @@
 const exportCSV = () => {
   link = document.createElement("a");
-  link.href = "/export";
+  link.href = "/items/export";
   link.download = "inventory.csv";
   link.click()
 }
@@ -8,7 +8,7 @@ const exportCSV = () => {
 const deleteItem = (itemId) => {
   console.log("HELLO")
   fetch(
-    `/items/${itemId}`,
+    `/items/delete/${itemId}`,
     {
       method: "DELETE",
     },

@@ -14,10 +14,10 @@ func routing() *mux.Router {
 
 	router.PathPrefix("/" + STATIC_FILES_PATH + "/").Handler(http.StripPrefix("/"+STATIC_FILES_PATH+"/", http.FileServer(http.Dir(STATIC_FILES_PATH))))
 	router.PathPrefix("/favicon.ico").Handler(http.NotFoundHandler())
-	router.HandleFunc("/new", handlers.NewHandler)
-	router.HandleFunc("/edit/{item_id:[0-9]+}", handlers.EditHandler)
-	router.HandleFunc("/items/{item_id:[0-9]+}", handlers.APIHandler)
-	router.HandleFunc("/export", handlers.ExportCSVHandler)
+	router.HandleFunc("/items/new", handlers.NewItemHandler)
+	router.HandleFunc("/items/edit/{item_id:[0-9]+}", handlers.EditItemHandler)
+	router.HandleFunc("/items/delete/{item_id:[0-9]+}", handlers.DeleteItemHandler)
+	router.HandleFunc("/items/export", handlers.ExportCSVHandler)
 	router.HandleFunc("/", handlers.DashboardHandler)
 
 	return router

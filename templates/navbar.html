@@ -13,7 +13,7 @@
           <a id="dashboard-link" class="nav-link" aria-current="page" href="/">Dashboard</a>
         </li>
         <li class="nav-item">
-          <a id="new-link" class="nav-link" aria-current="page" href="/new">New Item</a>
+          <a id="new-link" class="nav-link" aria-current="page" href="/items/new">New Item</a>
         </li>
       </ul>
       <a href="https://www.islamicreliefcanada.org/emergencies/palestine/" target="_blank" rel="noopener noreferrer" class="btn main-button">Donate to Palestine</a>
@@ -28,7 +28,7 @@
     if (currentRelativeURL == "/") {
       navId = "dashboard-link";
     }
-    else if (currentRelativeURL.includes("/new")) {
+    else if (currentRelativeURL.includes("/items/new")) {
       navId = "new-link";
     }
     else {

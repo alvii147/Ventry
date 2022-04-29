@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"database/sql"
 	"fmt"
 	"os"
 )
@@ -35,14 +36,20 @@ func PostgresQueries() string {
 	return queryString
 }
 
+type Shipment struct {
+	ShipmentId  int
+	Shipper     string
+	ShippedAt   string
+	DeliveredAt string
+}
+
 type Item struct {
-	ItemId   int64
-	Title    string
-	Quantity int64
-	Price    float64
-	Owner    string
-	Supplier string
-	Shipper  string
-	Created  string
-	Modified string
+	ItemId     int
+	ShipmentId sql.NullInt64
+	Product    string
+	Quantity   int
+	Price      float64
+	Supplier   string
+	CreatedAt  string
+	ModifiedAt string
 }

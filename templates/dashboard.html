@@ -17,15 +17,13 @@
       <table id="items-table" class="table table-hover table-bordered">
         <thead id="items-table-head" class="table-dark">
           <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Title</th>
+            <th scope="col">Item ID</th>
+            <th scope="col">Product</th>
             <th scope="col">Quantity</th>
             <th scope="col">Price</th>
-            <th scope="col">Owner</th>
             <th scope="col">Supplier</th>
-            <th scope="col">Shipper</th>
-            <th scope="col">Created</th>
-            <th scope="col">Modified</th>
+            <th scope="col">Created At</th>
+            <th scope="col">Modified At</th>
             <th scope="col">Edit</th>
             <th scope="col">Delete</th>
           </tr>
@@ -34,16 +32,14 @@
           {{ range $item := . }}
             <tr>
               <th scope="col">{{ $item.ItemId }}</th>
-              <td>{{ $item.Title }}</td>
+              <td>{{ $item.Product }}</td>
               <td>{{ $item.Quantity }}</td>
               <td>${{ $item.Price }}</td>
-              <td>{{ $item.Owner }}</td>
               <td>{{ $item.Supplier }}</td>
-              <td>{{ $item.Shipper }}</td>
-              <td>{{ $item.Created }}</td>
-              <td>{{ $item.Modified }}</td>
+              <td>{{ $item.CreatedAt }}</td>
+              <td>{{ $item.ModifiedAt }}</td>
               <td>
-                <a href="edit/{{ $item.ItemId }}">
+                <a href="/items/edit/{{ $item.ItemId }}">
                   <img alt="Edit Icon" src="/static/images/edit_icon.png" width="15" />
                 </a>
               </td>

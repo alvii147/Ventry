@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"github.com/gorilla/mux"
+	_ "github.com/lib/pq"
 )
 
 func GetItem(request *http.Request) (*Item, error) {
@@ -27,23 +28,22 @@ func GetItem(request *http.Request) (*Item, error) {
 	defer db.Close()
 
 	row := db.QueryRow(
-		"SELECT * FROM Inventory WHERE item_id = $1 LIMIT 1;",
+		"SELECT * FROM Item WHERE shipment_id IS NULL AND item_id = $1 LIMIT 1;",
 		ItemId,
 	)
 
 	item := Item{}
-	created := time.Time{}
-	modified := time.Time{}
+	createdAt := time.Time{}
+	modifiedAt := time.Time{}
 	err = row.Scan(
 		&item.ItemId,
-		&item.Title,
+		&item.ShipmentId,
+		&item.Product,
 		&item.Quantity,
 		&item.Price,
-		&item.Owner,
 		&item.Supplier,
-		&item.Shipper,
-		&created,
-		&modified,
+		&createdAt,
+		&modifiedAt,
 	)
 	if err != nil {
 		return nil, err
@@ -59,34 +59,33 @@ func GetItems() ([]Item, error) {
 	}
 	defer db.Close()
 
-	rows, err := db.Query("SELECT * FROM Inventory ORDER BY item_id;")
+	rows, err := db.Query("SELECT * FROM Item WHERE shipment_id IS NULL ORDER BY item_id;")
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
 
 	items := make([]Item, 0)
-	created := time.Time{}
-	modified := time.Time{}
+	createdAt := time.Time{}
+	modifiedAt := time.Time{}
 	for rows.Next() {
 		item := Item{}
 		err = rows.Scan(
 			&item.ItemId,
-			&item.Title,
+			&item.ShipmentId,
+			&item.Product,
 			&item.Quantity,
 			&item.Price,
-			&item.Owner,
 			&item.Supplier,
-			&item.Shipper,
-			&created,
-			&modified,
+			&createdAt,
+			&modifiedAt,
 		)
 		if err != nil {
 			return nil, err
 		}
 
-		item.Created = created.Format("2006-01-02")
-		item.Modified = modified.Format("2006-01-02")
+		item.CreatedAt = createdAt.Format("2006-01-02")
+		item.ModifiedAt = modifiedAt.Format("2006-01-02")
 		items = append(items, item)
 	}
 
@@ -105,21 +104,17 @@ func PostNewItem(request *http.Request) error {
 	}
 	defer db.Close()
 
-	title := request.FormValue("title")
+	product := request.FormValue("product")
 	quantity := request.FormValue("quantity")
 	price := request.FormValue("price")
-	owner := request.FormValue("owner")
 	supplier := request.FormValue("supplier")
-	shipper := request.FormValue("shipper")
 
 	_, err = db.Query(
-		"INSERT INTO Inventory (title, quantity, price, owner, supplier, shipper) VALUES ($1, $2, $3, $4, $5, $6)",
-		title,
+		"INSERT INTO Item (product, quantity, price, supplier) VALUES ($1, $2, $3, $4);",
+		product,
 		quantity,
 		price,
-		owner,
 		supplier,
-		shipper,
 	)
 	if err != nil {
 		return err
@@ -146,22 +141,18 @@ func PostEditItem(request *http.Request) error {
 	}
 	defer db.Close()
 
-	title := request.FormValue("title")
+	product := request.FormValue("product")
 	quantity := request.FormValue("quantity")
 	price := request.FormValue("price")
-	owner := request.FormValue("owner")
 	supplier := request.FormValue("supplier")
-	shipper := request.FormValue("shipper")
 
 	_, err = db.Query(
-		"UPDATE Inventory SET title = $2, quantity = $3, price = $4, owner = $5, supplier = $6, shipper = $7, modified = NOW() WHERE item_id = $1",
+		"UPDATE Item SET product = $2, quantity = $3, price = $4, supplier = $5, modified_at = NOW() WHERE shipment_id IS NULL AND item_id = $1",
 		itemId,
-		title,
+		product,
 		quantity,
 		price,
-		owner,
 		supplier,
-		shipper,
 	)
 	if err != nil {
 		return err
@@ -184,7 +175,7 @@ func DeleteItem(request *http.Request) error {
 	defer db.Close()
 
 	_, err = db.Query(
-		"DELETE FROM Inventory WHERE item_id = $1;",
+		"DELETE FROM Item WHERE shipment_id IS NULL AND item_id = $1;",
 		ItemId,
 	)
 	if err != nil {
@@ -192,6 +183,103 @@ func DeleteItem(request *http.Request) error {
 	}
 
 	return nil
+}
+
+func NewItemHandler(response http.ResponseWriter, request *http.Request) {
+	var statusCode int
+
+	defer func() {
+		LogHTTPTraffic(request, statusCode)
+	}()
+
+	switch request.Method {
+	case "GET":
+		statusCode = http.StatusOK
+
+		err := tmpl.ExecuteTemplate(response, "new.html", nil)
+		if err != nil {
+			statusCode = http.StatusInternalServerError
+			response.WriteHeader(statusCode)
+		}
+	case "POST":
+		err := PostNewItem(request)
+		if err != nil {
+			fmt.Println(err)
+			statusCode = http.StatusInternalServerError
+			response.WriteHeader(statusCode)
+			return
+		}
+
+		statusCode = http.StatusSeeOther
+		http.Redirect(response, request, "/", statusCode)
+	default:
+		statusCode = http.StatusMethodNotAllowed
+		response.WriteHeader(statusCode)
+	}
+}
+
+func EditItemHandler(response http.ResponseWriter, request *http.Request) {
+	var statusCode int
+
+	defer func() {
+		LogHTTPTraffic(request, statusCode)
+	}()
+
+	switch request.Method {
+	case "GET":
+		statusCode = http.StatusOK
+
+		item, err := GetItem(request)
+		if err != nil {
+			statusCode = http.StatusInternalServerError
+			response.WriteHeader(statusCode)
+		}
+
+		err = tmpl.ExecuteTemplate(response, "edit.html", item)
+		if err != nil {
+			statusCode = http.StatusInternalServerError
+			response.WriteHeader(statusCode)
+		}
+	case "POST":
+		err := PostEditItem(request)
+		if err != nil {
+			fmt.Println(err)
+			statusCode = http.StatusInternalServerError
+			response.WriteHeader(statusCode)
+			return
+		}
+
+		statusCode = http.StatusSeeOther
+		http.Redirect(response, request, "/", statusCode)
+	default:
+		statusCode = http.StatusMethodNotAllowed
+		response.WriteHeader(statusCode)
+	}
+}
+
+func DeleteItemHandler(response http.ResponseWriter, request *http.Request) {
+	var statusCode int
+
+	defer func() {
+		LogHTTPTraffic(request, statusCode)
+	}()
+
+	switch request.Method {
+	case "DELETE":
+		err := DeleteItem(request)
+		if err != nil {
+			fmt.Println(err)
+			statusCode = http.StatusInternalServerError
+			response.WriteHeader(statusCode)
+			return
+		}
+
+		statusCode = http.StatusSeeOther
+		http.Redirect(response, request, "/", statusCode)
+	default:
+		statusCode = http.StatusMethodNotAllowed
+		response.WriteHeader(statusCode)
+	}
 }
 
 func ExportCSVHandler(response http.ResponseWriter, request *http.Request) {
@@ -217,14 +305,12 @@ func ExportCSVHandler(response http.ResponseWriter, request *http.Request) {
 		for _, item := range items {
 			itemSlice := []string{
 				strconv.Itoa(int(item.ItemId)),
-				item.Title,
+				item.Product,
 				strconv.Itoa(int(item.Quantity)),
 				fmt.Sprintf("%f", item.Price),
-				item.Owner,
 				item.Supplier,
-				item.Shipper,
-				item.Created,
-				item.Modified,
+				item.CreatedAt,
+				item.ModifiedAt,
 			}
 
 			err = csvWriter.Write(itemSlice)
@@ -238,7 +324,7 @@ func ExportCSVHandler(response http.ResponseWriter, request *http.Request) {
 
 		csvWriter.Flush()
 
-		response.Header().Set("Content-Disposition", "attachment; filename=inventory.csv")
+		response.Header().Set("Content-Disposition", "attachment; filename=items.csv")
 		response.Header().Set("Content-Type", request.Header.Get("Content-Type"))
 		io.Copy(response, buf)
 
@@ -249,7 +335,7 @@ func ExportCSVHandler(response http.ResponseWriter, request *http.Request) {
 	}
 }
 
-func APIHandler(response http.ResponseWriter, request *http.Request) {
+func DashboardHandler(response http.ResponseWriter, request *http.Request) {
 	var statusCode int
 
 	defer func() {
@@ -257,8 +343,10 @@ func APIHandler(response http.ResponseWriter, request *http.Request) {
 	}()
 
 	switch request.Method {
-	case "DELETE":
-		err := DeleteItem(request)
+	case "GET":
+		statusCode = http.StatusOK
+
+		items, err := GetItems()
 		if err != nil {
 			fmt.Println(err)
 			statusCode = http.StatusInternalServerError
@@ -266,8 +354,13 @@ func APIHandler(response http.ResponseWriter, request *http.Request) {
 			return
 		}
 
-		statusCode = http.StatusSeeOther
-		http.Redirect(response, request, "/", statusCode)
+		err = tmpl.ExecuteTemplate(response, "dashboard.html", items)
+		if err != nil {
+			fmt.Println(err)
+			statusCode = http.StatusInternalServerError
+			response.WriteHeader(statusCode)
+			return
+		}
 	default:
 		statusCode = http.StatusMethodNotAllowed
 		response.WriteHeader(statusCode)

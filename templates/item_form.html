@@ -1,0 +1,20 @@
+{{ define "item_form" }}
+<div class="form-group">
+  <label for="product">Product</label>
+  <input type="text" class="form-control" id="product" name="product" value="{{ .Product }}">
+</div>
+<div class="form-group">
+  <label for="quantity">Quantity</label>
+  <input type="number" class="form-control" id="quantity" name="quantity" value="{{ .Quantity }}">
+</div>
+<div class="form-group">
+  <label for="price">Price</label>
+  <input type="text" class="form-control" id="price" name="price" value="{{ .Price }}">
+</div>
+<div class="form-group">
+  <label for="supplier">Supplier</label>
+  <input type="text" class="form-control" id="supplier" name="supplier" value="{{ .Supplier }}">
+</div>
+<br />
+<button type="submit" class="btn main-button">Submit</button>
+{{ end }}
