@@ -5,6 +5,7 @@ body {
   font-family: 'Dosis', sans-serif;
   font-family: 'Raleway', sans-serif;
   font-weight: bold;
+  overflow: scroll;
 }
 
 nav {
@@ -44,19 +45,33 @@ nav {
   align-items: center;
 }
 
-#items-table-body {
+#items-table {
   border: none;
 }
 
+#items-table-head > tr {
+  background-image: linear-gradient(to right, rgb(197, 182, 218), rgb(155, 178, 205));
+  border: none;
+}
+
+
 #items-table-body > tr {
-  background-image: linear-gradient(to right, rgb(224, 221, 119), rgb(235, 186, 50));
+  background-image: linear-gradient(to right, rgb(222, 215, 232), rgb(188, 201, 216));
   border: none;
 }
 
 #items-table-body > tr > th {
-  border: 1px solid rgb(77, 14, 5);
+  border: none;
 }
 
 #items-table-body > tr > td {
-  border: 1px solid rgb(77, 14, 5);
+  border: none;
+}
+
+#shipment-items-card-body {
+  font-size: 14pt;
+}
+
+#shipment-card {
+  background-image: linear-gradient(to right, rgb(222, 215, 232), rgb(188, 201, 216));
 }

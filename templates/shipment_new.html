@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {{ template "head"}}
+    <title>Ventry | New Shipment</title>
+  </head>
+  <body>
+    {{ template "navbar" }}
+    <br />
+    <div class="container">
+      <h1 class="display-5">New Shipment</h1>
+      <div class="col-md-4">
+        <form id="new-shipment-form" method="POST">
+          {{ template "shipment_form" . }}
+        </form>
+      </div>
+    </div>
+    {{ template "scripts" }}
+    <script src="/static/js/shipment_new.js"></script>
+  </body>
+</html>

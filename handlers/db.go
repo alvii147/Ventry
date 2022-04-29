@@ -36,13 +36,6 @@ func PostgresQueries() string {
 	return queryString
 }
 
-type Shipment struct {
-	ShipmentId  int
-	Shipper     string
-	ShippedAt   string
-	DeliveredAt string
-}
-
 type Item struct {
 	ItemId     int
 	ShipmentId sql.NullInt64
@@ -52,4 +45,15 @@ type Item struct {
 	Supplier   string
 	CreatedAt  string
 	ModifiedAt string
+}
+
+type Shipment struct {
+	ShipmentId  int
+	Shipper     string
+	Receiver    string
+	ShippedAt   string
+	DeliveredAt string
+	Items       []Item
+	DaysLeft    int
+	DaysTotal   int
 }

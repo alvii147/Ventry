@@ -19,6 +19,7 @@ func routing() *mux.Router {
 	router.HandleFunc("/items/delete/{item_id:[0-9]+}", handlers.DeleteItemHandler)
 	router.HandleFunc("/items/export", handlers.ExportCSVHandler)
 	router.HandleFunc("/", handlers.DashboardHandler)
+	router.HandleFunc("/shipments/new", handlers.NewShipmentHandler)
 
 	return router
 }

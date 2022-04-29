@@ -1,0 +1,29 @@
+{{ define "shipment_form" }}
+<div class="form-group">
+  <label for="shipper">Shipper</label>
+  <input type="text" class="form-control" id="shipper" name="shipper" required>
+</div>
+<div class="form-group">
+  <label for="receiver">Receiver</label>
+  <input type="text" class="form-control" id="receiver" name="receiver" required>
+</div>
+<div class="form-group">
+  <label for="delivered_at">(Estimated) Delivery Date</label>
+  <input type="date" class="form-control" id="delivered_at" name="delivered_at" required>
+</div>
+<div class="form-group">
+  <label for="items-list">Items to Ship</label>
+  <ul class="list-group" id="items-list">
+    {{ range $item := . }}
+    <li class="list-group-item list-group-item-action">
+      <input class="form-check-input" type="checkbox" id="item-{{ $item.ItemId }}" name="item-{{ $item.ItemId }}">
+      <label class="form-check-label" for="item-{{ $item.ItemId }}">
+        {{ $item.Product }} <span style="color: rgb(150, 101, 211)">({{ $item.Quantity }} units)</span>
+      </label>
+    </li>
+    {{ end }}
+  </ul>
+</div>
+<br />
+<button type="submit" class="btn main-button">Submit</button>
+{{ end }}

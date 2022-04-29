@@ -13,7 +13,10 @@
           <a id="dashboard-link" class="nav-link" aria-current="page" href="/">Dashboard</a>
         </li>
         <li class="nav-item">
-          <a id="new-link" class="nav-link" aria-current="page" href="/items/new">New Item</a>
+          <a id="new-item-link" class="nav-link" aria-current="page" href="/items/new">New Item</a>
+        </li>
+        <li class="nav-item">
+          <a id="new-shipment-link" class="nav-link" aria-current="page" href="/shipments/new">New Shipment</a>
         </li>
       </ul>
       <a href="https://www.islamicreliefcanada.org/emergencies/palestine/" target="_blank" rel="noopener noreferrer" class="btn main-button">Donate to Palestine</a>
@@ -29,7 +32,10 @@
       navId = "dashboard-link";
     }
     else if (currentRelativeURL.includes("/items/new")) {
-      navId = "new-link";
+      navId = "new-item-link";
+    }
+    else if (currentRelativeURL.includes("/shipments/new")) {
+      navId = "new-shipment-link";
     }
     else {
       return

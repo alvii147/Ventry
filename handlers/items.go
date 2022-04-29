@@ -28,7 +28,7 @@ func GetItem(request *http.Request) (*Item, error) {
 	defer db.Close()
 
 	row := db.QueryRow(
-		"SELECT * FROM Item WHERE shipment_id IS NULL AND item_id = $1 LIMIT 1;",
+		"SELECT * FROM Item WHERE shipment_id IS NULL AND item_id = $1;",
 		ItemId,
 	)
 
@@ -49,6 +49,9 @@ func GetItem(request *http.Request) (*Item, error) {
 		return nil, err
 	}
 
+	item.CreatedAt = createdAt.Format("2006-01-02")
+	item.ModifiedAt = modifiedAt.Format("2006-01-02")
+
 	return &item, nil
 }
 
@@ -59,7 +62,7 @@ func GetItems() ([]Item, error) {
 	}
 	defer db.Close()
 
-	rows, err := db.Query("SELECT * FROM Item WHERE shipment_id IS NULL ORDER BY item_id;")
+	rows, err := db.Query("SELECT item_id, shipment_id, product, quantity, price, supplier, created_at, modified_at FROM Item WHERE shipment_id IS NULL ORDER BY item_id;")
 	if err != nil {
 		return nil, err
 	}
@@ -86,6 +89,7 @@ func GetItems() ([]Item, error) {
 
 		item.CreatedAt = createdAt.Format("2006-01-02")
 		item.ModifiedAt = modifiedAt.Format("2006-01-02")
+
 		items = append(items, item)
 	}
 
@@ -196,10 +200,12 @@ func NewItemHandler(response http.ResponseWriter, request *http.Request) {
 	case "GET":
 		statusCode = http.StatusOK
 
-		err := tmpl.ExecuteTemplate(response, "new.html", nil)
+		err := tmpl.ExecuteTemplate(response, "item_new.html", nil)
 		if err != nil {
+			fmt.Println(err)
 			statusCode = http.StatusInternalServerError
 			response.WriteHeader(statusCode)
+			return
 		}
 	case "POST":
 		err := PostNewItem(request)
@@ -231,14 +237,18 @@ func EditItemHandler(response http.ResponseWriter, request *http.Request) {
 
 		item, err := GetItem(request)
 		if err != nil {
+			fmt.Println(err)
 			statusCode = http.StatusInternalServerError
 			response.WriteHeader(statusCode)
+			return
 		}
 
-		err = tmpl.ExecuteTemplate(response, "edit.html", item)
+		err = tmpl.ExecuteTemplate(response, "item_edit.html", item)
 		if err != nil {
+			fmt.Println(err)
 			statusCode = http.StatusInternalServerError
 			response.WriteHeader(statusCode)
+			return
 		}
 	case "POST":
 		err := PostEditItem(request)
@@ -329,38 +339,6 @@ func ExportCSVHandler(response http.ResponseWriter, request *http.Request) {
 		io.Copy(response, buf)
 
 		statusCode = http.StatusOK
-	default:
-		statusCode = http.StatusMethodNotAllowed
-		response.WriteHeader(statusCode)
-	}
-}
-
-func DashboardHandler(response http.ResponseWriter, request *http.Request) {
-	var statusCode int
-
-	defer func() {
-		LogHTTPTraffic(request, statusCode)
-	}()
-
-	switch request.Method {
-	case "GET":
-		statusCode = http.StatusOK
-
-		items, err := GetItems()
-		if err != nil {
-			fmt.Println(err)
-			statusCode = http.StatusInternalServerError
-			response.WriteHeader(statusCode)
-			return
-		}
-
-		err = tmpl.ExecuteTemplate(response, "dashboard.html", items)
-		if err != nil {
-			fmt.Println(err)
-			statusCode = http.StatusInternalServerError
-			response.WriteHeader(statusCode)
-			return
-		}
 	default:
 		statusCode = http.StatusMethodNotAllowed
 		response.WriteHeader(statusCode)

@@ -8,30 +8,31 @@
     {{ template "navbar" }}
     <br />
     <div class="container">
+      <h1 class="display-5">Dashboard</h1>
       <div class="dashboard-headline-container">
-        <h1 class="display-5">Dashboard</h1>
+        <h1 class="display-6">Inventory Items</h1>
         <div>
-          <button class="btn main-button" onclick="exportCSV()">Export CSV</button>
+          <button class="btn main-button" onclick="exportCSV();">Export CSV</button>
         </div>
       </div>
-      <table id="items-table" class="table table-hover table-bordered">
-        <thead id="items-table-head" class="table-dark">
+      <table id="items-table" class="table table-hover" cellspacing="0" cellpadding="0">
+        <thead id="items-table-head">
           <tr>
-            <th scope="col">Item ID</th>
-            <th scope="col">Product</th>
-            <th scope="col">Quantity</th>
-            <th scope="col">Price</th>
-            <th scope="col">Supplier</th>
-            <th scope="col">Created At</th>
-            <th scope="col">Modified At</th>
-            <th scope="col">Edit</th>
-            <th scope="col">Delete</th>
+            <th>Item ID</th>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Supplier</th>
+            <th>Created At</th>
+            <th>Modified At</th>
+            <th>Edit</th>
+            <th>Delete</th>
           </tr>
         </thead>
         <tbody id="items-table-body">
-          {{ range $item := . }}
+          {{ range $item := .Items }}
             <tr>
-              <th scope="col">{{ $item.ItemId }}</th>
+              <th>{{ $item.ItemId }}</th>
               <td>{{ $item.Product }}</td>
               <td>{{ $item.Quantity }}</td>
               <td>${{ $item.Price }}</td>
@@ -40,18 +41,40 @@
               <td>{{ $item.ModifiedAt }}</td>
               <td>
                 <a href="/items/edit/{{ $item.ItemId }}">
-                  <img alt="Edit Icon" src="/static/images/edit_icon.png" width="15" />
+                  <img alt="Edit Icon" src="/static/images/edit_icon.png" width="25" />
                 </a>
               </td>
               <td>
                 <a href="javascript:deleteItem({{ $item.ItemId }});">
-                  <img alt="Delete Icon" src="/static/images/delete_icon.png" width="15" />
+                  <img alt="Delete Icon" src="/static/images/delete_icon.png" width="25" />
                 </a>
               </td>
             </tr>
           {{ end }}
         </tbody>
       </table>
+      <h1 class="display-6">Shipments</h1>
+      <div class="accordion" id="shipment-accordion">
+        {{ range $shipment := .Shipments }}
+          <div id="shipment-card" class="card">
+            <div class="card-header" id="shipment-header-{{ $shipment.ShipmentId }}">
+              <button class="btn main-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-{{ $shipment.ShipmentId }}" aria-expanded="false" aria-controls="collapse-{{ $shipment.ShipmentId }}">
+                Expand
+              </button>
+              &nbsp; Shipper: <span class="badge bg-primary">{{ $shipment.Shipper }}</span>
+              &nbsp; Receiver: <span class="badge bg-info text-dark">{{ $shipment.Receiver }}</span>
+            </div>
+            <div id="collapse-{{ $shipment.ShipmentId }}" class="collapse" aria-labelledby="shipment-header-{{ $shipment.ShipmentId }}" data-bs-parent="#shipment-accordion">
+              <div id="shipment-items-card-body" class="card-body">
+                Items:<br />
+                {{ range $shipment_item := $shipment.Items }}
+                  <span class="badge bg-danger">{{ $shipment_item.Product }} <span class="badge bg-warning text-dark">{{ $shipment_item.Quantity }}</span></span><br />
+                {{ end }}
+              </div>
+            </div>
+          </div>
+        {{ end }}
+      </div>
     </div>
     {{ template "scripts" }}
     <script src="/static/js/dashboard.js"></script>
