@@ -1,4 +1,4 @@
-FROM golang:latest AS go-builder
+FROM golang:1.18
 
 ARG VENTRY_POSTGRES_DATABASE
 ARG VENTRY_POSTGRES_USERNAME
@@ -13,13 +13,7 @@ ENV VENTRY_POSTGRES_HOST $VENTRY_POSTGRES_HOST
 ENV VENTRY_POSTGRES_PORT $VENTRY_POSTGRES_PORT
 
 WORKDIR /usr/src/Ventry
-COPY . ./
 
-RUN go build  -o . ./...
+COPY go.mod go.sum ./
 
-FROM golang:latest AS go-runner
-
-WORKDIR /usr/src/Ventry
-COPY --from=go-builder /usr/src/Ventry/static/ ./static/
-COPY --from=go-builder /usr/src/Ventry/templates/ ./templates/
-COPY --from=go-builder /usr/src/Ventry/Ventry ./
+RUN go mod download

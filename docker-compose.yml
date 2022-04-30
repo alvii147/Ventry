@@ -1,7 +1,8 @@
+version: '3.8'
 services:
   database:
     image: postgres:14
-    container_name: postgres-ventry
+    container_name: ventry-postgres
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: M3m23e9ji32
@@ -20,12 +21,14 @@ services:
       VENTRY_POSTGRES_DATABASE: ventrydb
       VENTRY_POSTGRES_USERNAME: postgres
       VENTRY_POSTGRES_PASSWORD: M3m23e9ji32
-      VENTRY_POSTGRES_HOST: postgres-ventry
+      VENTRY_POSTGRES_HOST: ventry-postgres
       VENTRY_POSTGRES_PORT: 5432
     ports:
       - 8000:8000
+    volumes:
+      - ./:/usr/src/Ventry
     working_dir: /usr/src/Ventry
-    command: ./Ventry
+    command: go run .
     depends_on:
       - database
     restart: on-failure
