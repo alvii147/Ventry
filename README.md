@@ -22,7 +22,7 @@ New items can be created by navigating to the **New Item** link on the navbar an
 
 Existing items can be updated by clicking the edit icon on the right hand side of the corresponding item on the dashboard and filling out the pre-populated form with the appropriate changes.
 
-<img alt="Edit Item Screenshot" src="img/edit_item_screenshot.png" height="500" />
+<img alt="Edit Item Screenshot" src="img/edit_item_screenshot.png" width="500" />
 
 ## Create New Shipment
 
@@ -32,7 +32,7 @@ New shipments can be created by navigating to the **New Shipment** link on the n
 
 Ventry can also export the inventory data into [CSV](https://en.wikipedia.org/wiki/Comma-separated_values) format. This can be done by clicking the **Export CSV** button on the dashboard.
 
-<img alt="Export CSV Screenshot" src="img/export_screenshot.png" height="350" />
+<img alt="Export CSV Screenshot" src="img/export_screenshot.png" width="350" />
 
 # Getting Started
 
