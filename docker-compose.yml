@@ -7,11 +7,11 @@ services:
       POSTGRES_PASSWORD: M3m23e9ji32
     ports:
       - 5432:5432
-    restart: on-failure
+    restart: always
     volumes: 
       - ./db/create_database.sql:/docker-entrypoint-initdb.d/create_database.sql
-      - ./db/create_table.sql:/docker-entrypoint-initdb.d/create_table.sql
-      - ./db/insert_sample.sql:/docker-entrypoint-initdb.d/insert_sample.sql
+      - ./db/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
+      - ./db/populate_tables.sql:/docker-entrypoint-initdb.d/populate_tables.sql
 
   web-app:
     build: .

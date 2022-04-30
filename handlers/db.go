@@ -48,12 +48,14 @@ type Item struct {
 }
 
 type Shipment struct {
-	ShipmentId  int
-	Shipper     string
-	Receiver    string
-	ShippedAt   string
-	DeliveredAt string
-	Items       []Item
-	DaysLeft    int
-	DaysTotal   int
+	ShipmentId        int
+	Shipper           string
+	Receiver          string
+	ShippedAt         string
+	DeliveredAt       string
+	Items             []Item
+	DaysSince         int
+	DaysUntil         int
+	DaysTotal         int
+	PercentageShipped int
 }

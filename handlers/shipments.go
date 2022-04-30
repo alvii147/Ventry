@@ -91,12 +91,19 @@ func GetShipments() ([]Shipment, error) {
 
 		shipment.ShippedAt = shippedAt.Format("2006-01-02")
 		shipment.DeliveredAt = deliveredAt.Format("2006-01-02")
-		daysLeft := int(time.Until(deliveredAt))
-		if daysLeft < 0 {
-			daysLeft = 0
+
+		daysUntil := int(time.Until(deliveredAt).Hours() / 24)
+		if daysUntil < 0 {
+			daysUntil = 0
 		}
-		shipment.DaysLeft = daysLeft
+		shipment.DaysUntil = daysUntil
+		shipment.DaysSince = int(time.Since(shippedAt).Hours() / 24)
 		shipment.DaysTotal = int(deliveredAt.Sub(shippedAt).Hours() / 24)
+		percentageShipped := int((float64(shipment.DaysSince) / float64(shipment.DaysTotal)) * 100)
+		if percentageShipped > 100 {
+			percentageShipped = 100
+		}
+		shipment.PercentageShipped = percentageShipped
 
 		shipments = append(shipments, shipment)
 	}
@@ -129,7 +136,6 @@ func PostNewShipment(request *http.Request) error {
 	)
 	var shipmentId int
 	err = row.Scan(&shipmentId)
-	fmt.Println(shipmentId)
 
 	if err != nil {
 		return err
@@ -147,7 +153,6 @@ func PostNewShipment(request *http.Request) error {
 			return err
 		}
 
-		fmt.Println(itemId)
 		_, err = db.Query(
 			"UPDATE Item SET shipment_id = $1 WHERE shipment_id IS NULL AND item_id = $2",
 			shipmentId,

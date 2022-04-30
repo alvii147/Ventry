@@ -50,13 +50,14 @@ nav {
 }
 
 #items-table-head > tr {
-  background-image: linear-gradient(to right, rgb(197, 182, 218), rgb(155, 178, 205));
+  color: rgb(236, 236, 236);
+  background-image: linear-gradient(to right, rgb(102, 40, 7), rgb(100, 75, 5));
   border: none;
 }
 
 
 #items-table-body > tr {
-  background-image: linear-gradient(to right, rgb(222, 215, 232), rgb(188, 201, 216));
+  background-image: linear-gradient(to right, rgb(235, 186, 50), rgb(224, 221, 119));
   border: none;
 }
 
@@ -74,4 +75,11 @@ nav {
 
 #shipment-card {
   background-image: linear-gradient(to right, rgb(222, 215, 232), rgb(188, 201, 216));
+}
+
+#delivery-progress-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
 }

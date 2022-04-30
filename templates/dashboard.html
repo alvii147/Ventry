@@ -15,7 +15,7 @@
           <button class="btn main-button" onclick="exportCSV();">Export CSV</button>
         </div>
       </div>
-      <table id="items-table" class="table table-hover" cellspacing="0" cellpadding="0">
+      <table id="items-table" class="table table-hover table-borderless" cellspacing="0" cellpadding="0">
         <thead id="items-table-head">
           <tr>
             <th>Item ID</th>
@@ -58,18 +58,28 @@
         {{ range $shipment := .Shipments }}
           <div id="shipment-card" class="card">
             <div class="card-header" id="shipment-header-{{ $shipment.ShipmentId }}">
+              Shipper: <span class="badge bg-primary">{{ $shipment.Shipper }}</span>&nbsp;
+              Receiver: <span class="badge bg-info text-dark">{{ $shipment.Receiver }}</span>&nbsp;
               <button class="btn main-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-{{ $shipment.ShipmentId }}" aria-expanded="false" aria-controls="collapse-{{ $shipment.ShipmentId }}">
-                Expand
+                Details
               </button>
-              &nbsp; Shipper: <span class="badge bg-primary">{{ $shipment.Shipper }}</span>
-              &nbsp; Receiver: <span class="badge bg-info text-dark">{{ $shipment.Receiver }}</span>
             </div>
             <div id="collapse-{{ $shipment.ShipmentId }}" class="collapse" aria-labelledby="shipment-header-{{ $shipment.ShipmentId }}" data-bs-parent="#shipment-accordion">
               <div id="shipment-items-card-body" class="card-body">
-                Items:<br />
+                Items:
+                <br />
                 {{ range $shipment_item := $shipment.Items }}
                   <span class="badge bg-danger">{{ $shipment_item.Product }} <span class="badge bg-warning text-dark">{{ $shipment_item.Quantity }}</span></span><br />
                 {{ end }}
+                <br />
+                Estimated Days Till Delivery: {{ $shipment.DaysUntil }}
+                <div id="delivery-progress-container">
+                  <div class="progress" style="border: 1px solid rgb(24, 24, 66); width: 250px">
+                    <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="{{ $shipment.PercentageShipped }}" aria-valuemin="0" aria-valuemax="{{ $shipment.DaysTotal }}" style="width: {{ $shipment.PercentageShipped }}%;"></div>
+                  </div>
+                  &nbsp;
+                  <img alt="Delivery Icon" src="/static/images/delivery_icon.png" width="50" />
+                </div>
               </div>
             </div>
           </div>
