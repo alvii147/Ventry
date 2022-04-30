@@ -8,21 +8,25 @@ Ventry is an inventory tracking [CRUD](https://en.wikipedia.org/wiki/Create,_rea
 
 ## Dashboard
 
-The dashboard page shows all items in the current inventory.
+The dashboard page shows all items in the current inventory as well as all currently scheduled shipments.
 
 ![Dashboard Screenshot](img/dashboard_screenshot.png)
 
-## Create New Items
+## Create New Item
 
 New items can be created by navigating to the **New Item** link on the navbar and filling out the form with the item details.
 
-<img alt="New Item Screenshot" src="img/new_screenshot.png" height="500" />
+<img alt="New Item Screenshot" src="img/new_item_screenshot.png" width="500" />
 
-## Update Existing Items
+## Update Existing Item
 
 Existing items can be updated by clicking the edit icon on the right hand side of the corresponding item on the dashboard and filling out the pre-populated form with the appropriate changes.
 
-<img alt="Edit Item Screenshot" src="img/edit_screenshot.png" height="500" />
+<img alt="Edit Item Screenshot" src="img/edit_item_screenshot.png" height="500" />
+
+## Create New Shipment
+
+New shipments can be created by navigating to the **New Shipment** link on the navbar and filling out the form with the shipping details, including which items to ship.
 
 ## Exporting to CSV
 
