@@ -4,7 +4,7 @@
 
 # Overview
 
-Ventry is an inventory tracking [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) application built using [Go](https://go.dev/) and [PostgreSQL](https://www.postgresql.org/).
+Ventry is an inventory tracking [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) application built using [Go](https://go.dev/) and [PostgreSQL](https://www.postgresql.org/). This is a submission for the **Shopify Fall 2022 Backend Developer Internship Challenge**.
 
 ## Dashboard
 
@@ -74,14 +74,14 @@ Run the SQL query scripts in `db/` to create the database and table.
 
 ```bash
 psql -U <postgres username> -d ventrydb -a -f db/create_database.sql
-psql -U <postgres username> -d ventrydb -a -f db/create_table.sql
-psql -U <postgres username> -d ventrydb -a -f db/insert_sample.sql
+psql -U <postgres username> -d ventrydb -a -f db/create_tables.sql
+psql -U <postgres username> -d ventrydb -a -f db/populate_tables.sql
 ```
 
 :five: Install Go dependencies.
 
 ```bash
-go install
+go mod download
 ```
 
 :six: Run Go server.
