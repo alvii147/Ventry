@@ -94,4 +94,4 @@ Ventry can also export the inventory data into [CSV](https://en.wikipedia.org/wi
 
 # Database Schema
 
-![Database Schema](img/schema.png)
+<img alt="Database Schema" src="img/schema.png" width="600" />
