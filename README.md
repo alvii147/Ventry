@@ -8,6 +8,10 @@ Ventry is an inventory tracking [CRUD](https://en.wikipedia.org/wiki/Create,_rea
 
 Check out the hosted application [here!](https://ventry.zahinzaman1.repl.co/)
 
+## Tech Stack
+
+![Tech Stack](img/techstack_bg.png)
+
 ## Dashboard
 
 The dashboard page shows all items in the current inventory as well as all currently scheduled shipments.
@@ -37,6 +41,10 @@ New shipments can be created by navigating to the **New Shipment** link on the n
 Ventry can also export the inventory data into [CSV](https://en.wikipedia.org/wiki/Comma-separated_values) format. This can be done by clicking the **Export CSV** button on the dashboard.
 
 <img alt="Export CSV Screenshot" src="img/export_screenshot.png" width="350" />
+
+## Database Schema
+
+<img alt="Database Schema" src="img/schema.png" width="600" />
 
 # Getting Started
 
@@ -93,11 +101,3 @@ go run .
 ```
 
 This should run the Ventry web app on `http://localhost:8000/`.
-
-# Database Schema
-
-<img alt="Database Schema" src="img/schema.png" width="600" />
-
-# Tech Stack
-
-![Tech Stack](img/techstack_bg.png)
