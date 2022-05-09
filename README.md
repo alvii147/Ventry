@@ -100,4 +100,4 @@ This should run the Ventry web app on `http://localhost:8000/`.
 
 # Tech Stack
 
-![Tech Stack](img/techstack.png)
+![Tech Stack](img/techstack_bg.png)
