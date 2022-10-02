@@ -2,14 +2,11 @@
     <img alt="Ventry Logo" src="static/images/ventry_logo.png" width="300" />
 </p>
 
-<p align="center">
-    <a href="https://goreportcard.com/report/github.com/alvii147/Ventry" target="_blank" rel="noopener noreferrer" style="text-decoration: none;">
-        <img alt="Go Report Card Badge" src="https://goreportcard.com/badge/github.com/alvii147/Ventry" />
-    </a>
-    <a href="https://ventry.zahinzaman1.repl.co/" target="_blank" rel="noopener noreferrer" style="text-decoration: none;">
-        <img alt="Live Demo" src="https://img.shields.io/badge/replit-Live%20Demo-steelblue?logo=replit" />
-    </a>
-</p>
+<div align="center">
+
+[![Go Report Card Badge](https://goreportcard.com/badge/github.com/alvii147/Ventry)](https://goreportcard.com/report/github.com/alvii147/Ventry) [![Live Demo](https://img.shields.io/badge/replit-Live%20Demo-steelblue?logo=replit)](https://ventry.zahinzaman1.repl.co/)
+
+</div>
 
 # Overview
 
