@@ -1,6 +1,13 @@
 <p align="center">
-    <img alt="Ventry Logo" src="static/images/ventry_logo.png" width="300">
+    <img alt="Ventry Logo" src="static/images/ventry_logo.png" width="300" />
 </p>
+<p align="center">
+    <img alt="Go Report Card Badge" src="https://goreportcard.com/badge/github.com/alvii147/Ventry" />
+    <a href="https://ventry.zahinzaman1.repl.co/">
+        <img alt="Live Demo" src="https://img.shields.io/badge/replit-Live%20Demo-steelblue?logo=replit" />
+    </a>
+</p>
+
 
 # Overview
 
